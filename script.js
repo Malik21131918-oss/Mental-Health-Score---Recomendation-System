@@ -2,6 +2,11 @@
   "use strict";
 
   /* ---------------------------------------------------------
+     Production backend configuration
+     --------------------------------------------------------- */
+  const API_BASE_URL = "https://mental-health-score-recomendation-system-5ccm.onrender.com";
+
+  /* ---------------------------------------------------------
      Mobile nav toggle
      --------------------------------------------------------- */
   const nav = document.getElementById("nav");
@@ -44,29 +49,62 @@
   }
 
   /* ---------------------------------------------------------
-     Backend config + health check
+     Helpers: fetch with timeout + friendly error messages
      --------------------------------------------------------- */
-  const apiUrlInput = document.getElementById("apiUrl");
+
+  /**
+   * Wraps fetch with an abortable timeout so a sleeping/unreachable
+   * backend never hangs the UI forever.
+   */
+  async function fetchWithTimeout(url, options = {}, timeoutMs = 30000) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+      return await fetch(url, { ...options, signal: controller.signal });
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  }
+
+  /**
+   * Converts a raw fetch/network error (or an HTTP status) into a
+   * short, human-readable message for the user.
+   */
+  function getFriendlyErrorMessage(err, response) {
+    if (err && err.name === "AbortError") {
+      return "The server is taking longer than usual to respond (it may be waking up). Please try again in a few seconds.";
+    }
+    if (err instanceof TypeError) {
+      // Typical of network failures, CORS issues, or DNS problems.
+      return "Couldn't reach the server. Please check your connection and try again.";
+    }
+    if (response) {
+      if (response.status === 429) {
+        return "Too many requests right now. Please wait a moment and try again.";
+      }
+      if (response.status >= 500) {
+        return "The server ran into a problem processing your request. Please try again shortly.";
+      }
+      if (response.status >= 400) {
+        return "We couldn't process that request. Please check your inputs and try again.";
+      }
+    }
+    return "Something went wrong. Please try again.";
+  }
+
+  /* ---------------------------------------------------------
+     Backend health check
+     --------------------------------------------------------- */
   const apiStatus = document.getElementById("apiStatus");
   const apiStatusText = document.getElementById("apiStatusText");
 
-  const STORAGE_KEY = "pulse_api_url";
-  const savedUrl = localStorage.getItem(STORAGE_KEY);
-  if (savedUrl) apiUrlInput.value = savedUrl;
-
-  function getApiBase() {
-    return apiUrlInput.value.trim().replace(/\/+$/, "");
-  }
-
   async function checkApiHealth() {
-    const base = getApiBase();
-    if (!base) return;
-
     apiStatus.className = "api-status";
-    apiStatusText.textContent = "Checking...";
+    apiStatusText.textContent = "Connecting...";
 
     try {
-      const res = await fetch(`${base}/`, { method: "GET" });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/`, { method: "GET" }, 20000);
       if (!res.ok) throw new Error("bad status");
       apiStatus.className = "api-status online";
       apiStatusText.textContent = "Connected";
@@ -75,13 +113,6 @@
       apiStatusText.textContent = "Unreachable";
     }
   }
-
-  let healthTimer;
-  apiUrlInput.addEventListener("input", () => {
-    localStorage.setItem(STORAGE_KEY, apiUrlInput.value.trim());
-    clearTimeout(healthTimer);
-    healthTimer = setTimeout(checkApiHealth, 500);
-  });
 
   checkApiHealth();
 
@@ -196,33 +227,35 @@
       return;
     }
 
-    const base = getApiBase();
-    if (!base) {
-      formError.textContent = "Set the backend URL above before running an analysis.";
-      return;
-    }
-
     setLoading(true);
 
-    try {
-      const res = await fetch(`${base}/analyze`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
+    let response = null;
 
-      if (!res.ok) {
-        const detail = await res.json().catch(() => null);
-        throw new Error(detail && detail.detail ? detail.detail : `Request failed (${res.status})`);
+    try {
+      response = await fetchWithTimeout(
+        `${API_BASE_URL}/analyze`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        },
+        30000
+      );
+
+      if (!response.ok) {
+        const detail = await response.json().catch(() => null);
+        const message = detail && detail.detail ? detail.detail : getFriendlyErrorMessage(null, response);
+        throw new Error(message);
       }
 
-      const data = await res.json();
+      const data = await response.json();
       renderResult(data);
       apiStatus.className = "api-status online";
       apiStatusText.textContent = "Connected";
     } catch (err) {
-      formError.textContent =
-        "Can't reach the model server. Make sure your FastAPI backend is running at " + base + ".";
+      const isCustomMessage = response && !response.ok && err.message;
+      formError.textContent = isCustomMessage ? err.message : getFriendlyErrorMessage(err, response);
+
       apiStatus.className = "api-status offline";
       apiStatusText.textContent = "Unreachable";
     } finally {
