@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulse — AI Mental Health Insight & Recommendation System</title>
+<meta name="description" content="An AI model trained on student lifestyle data reads sleep, screen time, and stress patterns to reveal how digital habits shape mental health.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="noise-overlay" aria-hidden="true"></div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 40 24" class="brand-pulse">
+          <path d="M0 12 H10 L14 4 L19 20 L23 8 L27 16 L30 12 H40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="brand-text">Pulse</span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="#how">How it works</a>
+      <a href="#demo">Try it</a>
+      <a href="#model">The model</a>
+      <a href="#stack">Stack</a>
+    </nav>
+
+    <a href="#demo" class="btn btn-nav">Check your pulse</a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">AI-powered wellbeing analytics</p>
+        <h1 class="hero-title">Every scroll<br>leaves a <span class="ink">pulse.</span></h1>
+        <p class="hero-sub">
+          A Random Forest model trained on 5,000 student profiles reads sleep, screen time,
+          stress, and study habits — then tells you exactly what they're doing to your
+          mental health, in seconds.
+        </p>
+        <div class="hero-actions">
+          <a href="#demo" class="btn btn-primary">Check your pulse</a>
+          <a href="#how" class="btn btn-ghost">See how it works</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="hero-stat-num">0.89</span>
+            <span class="hero-stat-label">R² score</span>
+          </div>
+          <div class="hero-stat-divider" aria-hidden="true"></div>
+          <div class="hero-stat">
+            <span class="hero-stat-num">5,000</span>
+            <span class="hero-stat-label">student profiles</span>
+          </div>
+          <div class="hero-stat-divider" aria-hidden="true"></div>
+          <div class="hero-stat">
+            <span class="hero-stat-num">12</span>
+            <span class="hero-stat-label">lifestyle signals</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal" aria-hidden="true">
+        <div class="pulse-card">
+          <div class="pulse-card-head">
+            <span class="pulse-dot"></span>
+            <span>Live signal</span>
+          </div>
+          <svg viewBox="0 0 400 140" class="pulse-wave" preserveAspectRatio="none">
+            <path class="pulse-wave-line" d="M0,70 L40,70 L55,20 L70,120 L85,40 L100,90 L115,70 L160,70 L175,25 L190,115 L205,45 L220,85 L235,70 L280,70 L295,15 L310,125 L325,35 L340,95 L355,70 L400,70" />
+          </svg>
+          <div class="pulse-card-foot">
+            <span class="pulse-readout">Reading student digital-wellness patterns</span>
+          </div>
+        </div>
+        <div class="floating-chip chip-a">
+          <span class="chip-label">Sleep</span>
+          <span class="chip-value">7.4h</span>
+        </div>
+        <div class="floating-chip chip-b">
+          <span class="chip-label">Risk level</span>
+          <span class="chip-value chip-value-good">Healthy</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="how" id="how">
+    <div class="section-inner">
+      <p class="eyebrow eyebrow-center">The pipeline</p>
+      <h2 class="section-title">From habits to insight, in three steps</h2>
+
+      <div class="how-flow">
+        <div class="how-step reveal">
+          <span class="how-step-index">01</span>
+          <h3>Share your habits</h3>
+          <p>Sleep, screen time, unlocks, stress, and study routine — the same signals that shape how you actually feel.</p>
+        </div>
+        <div class="how-connector" aria-hidden="true"></div>
+        <div class="how-step reveal">
+          <span class="how-step-index">02</span>
+          <h3>The model reads the pattern</h3>
+          <p>A tuned Random Forest, trained on thousands of real student profiles, weighs every signal against the rest.</p>
+        </div>
+        <div class="how-connector" aria-hidden="true"></div>
+        <div class="how-step reveal">
+          <span class="how-step-index">03</span>
+          <h3>Get your reading</h3>
+          <p>A predicted score, a risk level, the factors driving it, and habits worth changing first.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DEMO ============ -->
+  <section class="demo" id="demo">
+    <div class="section-inner">
+      <p class="eyebrow eyebrow-center">Try the model</p>
+      <h2 class="section-title">Check your pulse</h2>
+      <p class="section-sub">
+        Fill in a real (or hypothetical) lifestyle, and the model connected below will score it live.
+      </p>
+
+      <div class="api-bar">
+        <label for="apiUrl">Backend URL</label>
+        <input type="text" id="apiUrl" value="http://127.0.0.1:8000" spellcheck="false" autocomplete="off">
+        <span class="api-status" id="apiStatus">
+          <span class="api-status-dot"></span>
+          <span id="apiStatusText">Not checked</span>
+        </span>
+      </div>
+
+      <div class="demo-grid">
+        <form class="demo-form" id="analyzeForm" novalidate>
+
+          <fieldset>
+            <legend>Profile</legend>
+            <div class="field-row">
+              <div class="field">
+                <label for="age">Age</label>
+                <input type="number" id="age" min="10" max="100" value="21" required>
+              </div>
+              <div class="field">
+                <label for="gender">Gender</label>
+                <select id="gender" required>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="country">Country</label>
+                <input type="text" id="country" list="countryList" value="Pakistan" required>
+                <datalist id="countryList">
+                  <option value="USA"><option value="UK"><option value="India">
+                  <option value="Canada"><option value="Australia"><option value="Germany">
+                  <option value="Mexico"><option value="Turkey"><option value="France">
+                  <option value="Pakistan"><option value="Bangladesh"><option value="Other">
+                </datalist>
+              </div>
+              <div class="field">
+                <label for="academicLevel">Academic level</label>
+                <select id="academicLevel" required>
+                  <option value="High School">High School</option>
+                  <option value="Undergraduate" selected>Undergraduate</option>
+                  <option value="Graduate">Graduate</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Digital habits</legend>
+            <div class="field-row">
+              <div class="field">
+                <label for="platform">Most used platform</label>
+                <select id="platform" required>
+                  <option>Facebook</option><option selected>Instagram</option><option>LinkedIn</option>
+                  <option>Snapchat</option><option>Twitter</option><option>YouTube</option>
+                  <option>TikTok</option><option>LINE</option><option>KakaoTalk</option>
+                  <option>VKontakte</option><option>WhatsApp</option><option>WeChat</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="purpose">Purpose of use</label>
+                <select id="purpose" required>
+                  <option>Networking</option><option>Education</option>
+                  <option selected>Entertainment</option><option>News</option>
+                </select>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="usageHours">Avg. daily usage <span class="unit">hrs</span></label>
+                <input type="number" id="usageHours" min="0" max="24" step="0.1" value="5.5" required>
+              </div>
+              <div class="field">
+                <label for="unlocks">Daily phone unlocks</label>
+                <input type="number" id="unlocks" min="0" value="140" required>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Lifestyle</legend>
+            <div class="field-row">
+              <div class="field">
+                <label for="studyHours">Study hours <span class="unit">/ day</span></label>
+                <input type="number" id="studyHours" min="0" max="24" step="0.1" value="2.5" required>
+              </div>
+              <div class="field">
+                <label for="activityHours">Physical activity <span class="unit">hrs</span></label>
+                <input type="number" id="activityHours" min="0" max="24" step="0.1" value="1.0" required>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="sleepHours">Sleep per night <span class="unit">hrs</span></label>
+                <input type="number" id="sleepHours" min="0" max="24" step="0.1" value="6.0" required>
+              </div>
+              <div class="field">
+                <label for="stress">Stress level</label>
+                <select id="stress" required>
+                  <option>Low</option><option selected>Medium</option>
+                  <option>High</option><option>Very High</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
+            <span id="submitBtnText">Read my pulse</span>
+          </button>
+          <p class="form-error" id="formError" role="alert"></p>
+        </form>
+
+        <div class="demo-result" id="demoResult">
+          <div class="result-empty" id="resultEmpty">
+            <svg viewBox="0 0 40 24" class="result-empty-pulse" aria-hidden="true">
+              <path d="M0 12 H10 L14 4 L19 20 L23 8 L27 16 L30 12 H40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <p>Your reading will appear here.</p>
+          </div>
+
+          <div class="result-panel" id="resultPanel" hidden>
+            <div class="gauge-wrap">
+              <svg viewBox="0 0 160 160" class="gauge">
+                <circle cx="80" cy="80" r="68" class="gauge-track"></circle>
+                <circle cx="80" cy="80" r="68" class="gauge-fill" id="gaugeFill"></circle>
+              </svg>
+              <div class="gauge-center">
+                <span class="gauge-score" id="gaugeScore">--</span>
+                <span class="gauge-max">/ 10</span>
+              </div>
+            </div>
+
+            <span class="risk-badge" id="riskBadge">--</span>
+
+            <div class="result-block">
+              <h4>Top factors</h4>
+              <ul class="factor-list" id="factorList"></ul>
+            </div>
+
+            <div class="result-block">
+              <h4>Recommendations</h4>
+              <ul class="rec-list" id="recList"></ul>
+            </div>
+
+            <p class="result-summary" id="resultSummary"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MODEL PERFORMANCE ============ -->
+  <section class="model" id="model">
+    <div class="section-inner">
+      <p class="eyebrow eyebrow-center">Under the hood</p>
+      <h2 class="section-title">A model that earns its confidence</h2>
+      <p class="section-sub">
+        Linear Regression set the baseline. A tuned Random Forest Regressor won on every metric that matters.
+      </p>
+
+      <div class="metric-grid">
+        <div class="metric-card reveal">
+          <span class="metric-value">0.89</span>
+          <span class="metric-label">R² score (test set)</span>
+        </div>
+        <div class="metric-card reveal">
+          <span class="metric-value">0.33</span>
+          <span class="metric-label">Mean absolute error</span>
+        </div>
+        <div class="metric-card reveal">
+          <span class="metric-value">0.44</span>
+          <span class="metric-label">RMSE</span>
+        </div>
+        <div class="metric-card reveal">
+          <span class="metric-value">0.86</span>
+          <span class="metric-label">Cross-validated R²</span>
+        </div>
+      </div>
+
+      <div class="compare-bars">
+        <div class="compare-row">
+          <span class="compare-label">Linear Regression</span>
+          <div class="compare-track"><div class="compare-fill" style="width:74%"></div></div>
+          <span class="compare-num">0.74</span>
+        </div>
+        <div class="compare-row">
+          <span class="compare-label">Random Forest</span>
+          <div class="compare-track"><div class="compare-fill compare-fill-accent" style="width:89%"></div></div>
+          <span class="compare-num">0.89</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STACK ============ -->
+  <section class="stack" id="stack">
+    <div class="section-inner">
+      <p class="eyebrow eyebrow-center">Built with</p>
+      <div class="stack-badges">
+        <span class="badge">Python</span>
+        <span class="badge">scikit-learn</span>
+        <span class="badge">Random Forest</span>
+        <span class="badge">Pandas</span>
+        <span class="badge">FastAPI</span>
+        <span class="badge">Pydantic</span>
+        <span class="badge">Uvicorn</span>
+        <span class="badge">Joblib</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="section-inner footer-inner">
+    <div class="footer-brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 40 24" class="brand-pulse">
+          <path d="M0 12 H10 L14 4 L19 20 L23 8 L27 16 L30 12 H40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <div>
+        <span class="brand-text">Pulse</span>
+        <p class="footer-tagline">AI Mental Health Insight & Recommendation System</p>
+      </div>
+    </div>
+    <div class="footer-meta">
+      <p>Built by Malik Umair</p>
+      <a href="https://github.com/Malik21131918-oss" target="_blank" rel="noopener">github.com/Malik21131918-oss</a>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
